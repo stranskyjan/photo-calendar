@@ -1,0 +1,7 @@
+/*
+* just something very simple, other styling stuff is inside HTML iself (definitely not the prefered but possible way)
+*/
+@page {
+	margin: 0;
+	size: 210mm 297mm;
+}

@@ -100,5 +100,4 @@ photocalendar \
 
 ## TODO
 - more templates
-- support for custom templates
 - monthly calendar?

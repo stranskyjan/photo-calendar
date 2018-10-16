@@ -8,6 +8,7 @@ Each tempalte provide:
 See source code of ``delphinus`` template for example.
 """
 import os
+import sys
 
 def loadTemplate(templateName):
 	"""
@@ -20,14 +21,28 @@ def loadTemplate(templateName):
 	:returns: toHTMLString(calendar) function returning HTML string and CSSString string
 	:rtype: (function(calendar),str)
 	"""
-	try:
-		module = __import__("photocalendar.templates.{}".format(templateName),fromlist=[templateName])
-		toHTMLString = module.toHTMLString
-		CSSString = module.CSSString
-		return toHTMLString,CSSString
-	# TODO custom
-	except ImportError:
-		raise
+	# templateName is "just" string, try to import it from photocalendar.templates
+	print(templateName)
+	if os.path.basename(templateName) == templateName:
+		try:
+			module = __import__("photocalendar.templates.{}".format(templateName),fromlist=[templateName])
+			toHTMLString = module.toHTMLString
+			CSSString = module.CSSString
+			return toHTMLString,CSSString
+		except:
+			raise
+	# templateName contains some path info. Add the directory part to sys.path and tryo to import rest as a module
+	else:
+		try:
+			dirName = os.path.dirname(templateName)
+			templateName = os.path.basename(templateName)
+			sys.path.append(dirName)
+			module = __import__(templateName,fromlist=[templateName])
+			toHTMLString = module.toHTMLString
+			CSSString = module.CSSString
+			return toHTMLString,CSSString
+		except:
+			raise
 	return None
 
 def loadCSS(f):

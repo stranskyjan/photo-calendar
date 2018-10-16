@@ -80,6 +80,7 @@ doc:
 examples:
 	@cd examples
 	$(call run_example, example1)
+	$(call run_example, custom-template)
 
 
 clean:
