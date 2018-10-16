@@ -102,7 +102,7 @@ class HTMLFormatter:
 			div(p,cls="day-public-holiday")
 			# note
 			div(day.note,cls="day-note")
-	def toHTML(self,calendar):
+	def toHTMLString(self,calendar):
 		self.createDoc(calendar)
 		with self.doc.body:
 			self.formatTitlePage(calendar)
@@ -112,4 +112,4 @@ class HTMLFormatter:
 
 # template mandatory members
 CSSString = loadCSS(__file__)
-toHTML = lambda calendar: HTMLFormatter().toHTML(calendar)
+toHTMLString = lambda calendar: HTMLFormatter().toHTMLString(calendar)

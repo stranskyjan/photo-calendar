@@ -22,9 +22,9 @@ def loadTemplate(templateName):
 	"""
 	try:
 		module = __import__("photocalendar.templates.{}".format(templateName),fromlist=[templateName])
-		toHTML = module.toHTML
+		toHTMLString = module.toHTMLString
 		CSSString = module.CSSString
-		return toHTML,CSSString
+		return toHTMLString,CSSString
 	# TODO custom
 	except ImportError:
 		raise
