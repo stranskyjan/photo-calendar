@@ -56,6 +56,7 @@ calendar = PhotoCalendar( # not all arguments are mandatory
 	notesFile                 = "/some/file/with/notes/like/birthdays/etc",
 	weekDayNamesFile          = "/some/file/with/custom/week/day/names",
 	monthNamesFile            = "/some/file/with/custom/month/names",
+	template                  = "delphinus",
 )
 calendar.toHTML()
 ```
@@ -78,7 +79,8 @@ photocalendar \
 	--public-holidays-file        /some/file/with/public/holidays \
 	--notes-file                  /some/file/with/notes/like/birthdays/etc \
 	--week-day-names-file         /some/file/with/custom/week/day/names \
-	--month-names-file            /some/file/with/custom/month/names
+	--month-names-file            /some/file/with/custom/month/names \
+	--template                    delphinus
 ```
 
 ## What is here
