@@ -1,0 +1,183 @@
+/*
+A very basic CSS file (only positioning and basic coloring) for delphinus template.
+*/
+
+/**********************************************************************
+* C O M M O N   S E T T I N G S
+**********************************************************************/
+/* for printing, tested with Chrome browser */
+@page {
+	margin: 0;
+	size: 210mm 148mm; /* should be the same as .page */
+}
+
+/* title page or week pages */
+.page {
+	position: relative;
+	width: 210mm; /* shuold be the same as @page */
+	height: 148mm; /* shuold be the same as @page */
+	background-size: cover; /* fit the background image to entire page */
+	page-break-after: always; /* helps printing */
+}
+
+/* default 0 margin, padding */
+* {
+	padding: 0;
+	margin: 0;
+}
+
+/* default font */
+body {
+	font-family: Arial;
+	font-size: 5mm;
+}
+
+/**********************************************************************
+* T I T L E   P A G E
+**********************************************************************/
+/* width and position of title image */
+#title-page-image-container {
+	position: relative;
+	width: 80%;
+	left: 10%;
+	top: 15%;
+}
+
+#title-page-image-aspect-ratio {
+	position: relative;
+	padding-bottom: 56.25%; /* aspect ratio 16:9 */
+}
+
+#title-page-image {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+/* position and size of title */
+#title {
+	position: relative;
+	top: 15%; /* same top as #title-page-image-container */
+	font-size: 250%;
+	/* centering */
+	width: 100%;
+	text-align: center;
+}
+
+/**********************************************************************
+* W E E K S
+**********************************************************************/
+/* width and position of week image */
+.week-image-container {
+	position: relative;
+	width: 50%;
+	left: 2.5%;
+	top: 10%;
+}
+
+.week-image-aspect-ratio {
+	position: relative;
+	padding-bottom: 100%; /* aspect ratio 1:1 */
+}
+
+/* size and position of week images */
+.week-image {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.week-image-description {
+	position: relative;
+	top: 11%; /* same value as .week-image-container top + something little*/
+	/* centering */
+	width: 55%;
+	text-align: center;
+}
+
+.week-number {
+	position: absolute;
+	left: 55%; /* same value as .days left */
+	top: 10%; /* same value as .week-image-container top */
+	font-size: 120%;
+}
+
+.month-name {
+	position: absolute;
+	right: 5%;
+	text-align: right;
+	top: 10%; /* same value as .week-image-container top */
+	font-size: 120%;
+}
+
+/**********************************************************************
+* D A Y S
+**********************************************************************/
+.days {
+	position: absolute;
+	left: 55%;
+	top: 17%;
+	width: 40%; /* equal to 100% - left (55%) - .month-name right (5%) */
+	height: 70%;
+	font-size: 85%;
+}
+
+hr {
+	margin-top: 1%;
+	margin-bottom: 1%;
+}
+
+.day {
+	position: relative;
+	height: 13%;
+}
+
+/* positioning of day content */
+.day-name {
+	position: absolute;
+}
+
+.day-number {
+	position: absolute;
+	bottom: 0; /* at the bottom */
+	font-size: 150%;
+}
+
+.day-name-day {
+	position: absolute;
+	left: 30%;
+}
+
+.day-religious-holiday {
+	position: absolute;
+	bottom: 0; /* at the bottom */
+	left: 30%; /* same vale as .day-name-day */
+	font-style: italic;
+	color: darkgreen;
+}
+
+.day-public-holiday {
+	position: absolute;
+	width: 100%;
+	text-align: right;
+	/* vertical centering */
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.day-note {
+	position: absolute;
+	right: 0;
+	bottom: 0; /* at the bottom */
+	color: blue;
+	font-style: italic;
+}
+
+/* sundays and public holidays are red */
+.day-is-public-holiday {
+	color: red;
+}
+
+.day-sunday {
+	color: red;
+}

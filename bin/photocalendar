@@ -1,0 +1,92 @@
+#!/usr/bin/env python
+"""
+A command line utility for PhotoCalendar
+PhotoCalendar instance is instanciated from command line arguments and converted to HTML
+"""
+import os
+import argparse
+from tempfile import gettempdir
+import six
+import photocalendar
+
+def parseCommandLineArguments():
+	prog = os.path.basename(__file__)
+	parser = argparse.ArgumentParser(
+		prog = prog,
+		usage = '[python] {} [options]'.format(prog),
+		description = "Weekly photo-calendar creator",
+	)
+	#
+	defaultOutputBase = os.path.join(gettempdir(),"photocalendar")
+	auxCalendar = photocalendar.PhotoCalendar(defaultOutputBase)
+	# get default values from PhotoCalendar.__init__ function
+	defaults = auxCalendar.__init__.__func__.__defaults__
+	varnames = auxCalendar.__init__.__func__.__code__.co_varnames[-len(defaults):]
+	name2default = dict((k,v) for k,v in zip(varnames,defaults))
+	#
+	unicodelambdas = {}
+	def my_add_argument(key1,key2,attrName,type=None,default=None,help=None):
+		"""Auxiliary function to set type, default and help from existing data"""
+		if default is None: # if not specified, default is the value from PhotoCalendar.__init__
+			default = name2default[attrName]
+		if type is None: # if not specified, type is type of default value
+			type = default.__class__
+			# python 2 trick to read shell unicode values (which end with unicode errors) = instead of unicode, type is a function returning unicode
+			if six.PY2 and type == unicode:
+				type = lambda s: unicode(s,"utf8")
+				unicodelambdas[attrName] = default # stores the artificial function for later use
+				default = lambda s: u""
+		if help is None: # if not specified, help is borrowed from PhotoCalendar docstring
+			help = photocalendar.photocalendar._attrdocs[attrName]
+		# add arguments to parser
+		parser.add_argument(key1,key2,
+			dest = attrName,
+			type = type,
+			default = default,
+			help = help,
+		)
+	# define arguments
+	my_add_argument('-o' , '--output-base'                , 'outputBase', default=defaultOutputBase)
+	my_add_argument('-y' , '--year'                       , 'year')
+	my_add_argument('-f' , '--first-weekday'              , 'firstWeekDay')
+	my_add_argument('-id', '--images-directory'           , 'imagesDirectory')
+	my_add_argument('-if', '--image-descriptions-file'    , 'imageDescriptionsFile')
+	my_add_argument('-bd', '--background-images-directory', 'backgroundImagesDirectory')
+	my_add_argument('-ti', '--title'                      , 'title')
+	my_add_argument('-tp', '--title-page-image'           , 'titlePageImage')
+	my_add_argument('-tb', '--title-page-background'      , 'titlePageBackground')
+	my_add_argument('-sf', '--name-days-file'             , 'nameDaysFile')
+	my_add_argument('-rf', '--religious-holidays-file'    , 'religiousHolidaysFile')
+	my_add_argument('-pf', '--public-holidays-file'       , 'publicHolidaysFile')
+	my_add_argument('-nf', '--notes-file'                 , 'notesFile')
+	my_add_argument('-te', '--template'                   , 'template')
+	my_add_argument('-df', '--week-day-names-file'        , 'weekDayNamesFile')
+	my_add_argument('-mf', '--month-names-file'           , 'monthNamesFile')
+	# parse arguments and convert them to dict
+	args = parser.parse_args()
+	ret = args2dict(args)
+	# python2 default unicode values are functions, convert them back to unicode
+	if six.PY2:
+		for k,v in unicodelambdas.iteritems():
+			v = ret[k]
+			if callable(v): # v is function
+				ret[k] = unicodelambdas[k] # use the string instead of function
+	return ret
+
+def args2dict(args):
+	"""Converts argparse.Namespace to python dict"""
+	ret = {}
+	for k in args.__dict__: # loop over __dict__ ...
+		if not k.startswith("_"): # ... skipping special methods ...
+			ret[k] = args.__dict__[k] # and putting them to ret
+	return ret
+
+def main():
+	args = parseCommandLineArguments()
+	# Instanciate PhotoCalendar form kwyword args ...
+	calendar = photocalendar.PhotoCalendar(**args)
+	# ... and convert it to HTML
+	calendar.toHTML()
+
+if __name__ == "__main__":
+	main()
