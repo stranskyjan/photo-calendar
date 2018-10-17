@@ -22,7 +22,6 @@ def loadTemplate(templateName):
 	:rtype: (function(calendar),str)
 	"""
 	# templateName is "just" string, try to import it from photocalendar.templates
-	print(templateName)
 	if os.path.basename(templateName) == templateName:
 		try:
 			module = __import__("photocalendar.templates.{}".format(templateName),fromlist=[templateName])
