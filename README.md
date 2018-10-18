@@ -67,7 +67,7 @@ calendar.toHTML()
 photocalendar \
 	--output-base                 /some/output/base \
 	--year                        2019 \
-	--first-week-day              Tu \ # Tuesday as the first week day? Well, why not...
+	--first-week-day              Tu \
 	--images-directory            /some/directory/with/images/for/each/week  \
 	--image-descriptions-file     /some/file/with/image/descriptions/for/each/week \
 	--background-images-directory /some/directory/with/backround/images/for/each/week \
@@ -102,4 +102,4 @@ photocalendar \
 
 ## TODO
 - more templates
-- monthly calendar?
+- monthly calendar? two-week calendars?
