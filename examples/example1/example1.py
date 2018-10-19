@@ -17,12 +17,15 @@ backgroundImagesDirectory = os.path.join(dataDirectory,"backgrounds")           
 title                     = "PhotoCalendar 2019"                                  # ... title
 titlePageImage            = os.path.join(dataDirectory,"titlePageImage.svg")      # ... title image
 titlePageBackground       = os.path.join(dataDirectory,"titlePageBackground.svg") # ... title background
+lastPageBackground        = os.path.join(dataDirectory,"lastPageBackground.svg")  # ... title background
 notesFile                 = os.path.join(dataDirectory,"notes.dat")               # ... or notes for days
 nameDaysFile              = os.path.join(dataDirectory,"nameDays.dat")            # ... or name-days
 religiousHolidaysFile     = os.path.join(dataDirectory,"religiousHolidays.dat")   # ... or religious holidays
 publicHolidaysFile        = os.path.join(dataDirectory,"publicHolidays.dat")      # ... or public holidays
 weekDayNamesFile          = os.path.join(dataDirectory,"weekDayNames.dat")        # ... or custom names of week days
+abbrWeekDayNamesFile      = os.path.join(dataDirectory,"abbrWeekDayNames.dat")    # ... or custom abbreviations of weekday names
 monthNamesFile            = os.path.join(dataDirectory,"monthNames.dat")          # ... or custom names of months
+abbrMonthNamesFile        = os.path.join(dataDirectory,"abbrMonthNames.dat")      # ... or custom abbreviations of month names
 
 # create sample images and other data
 preprocessExample(buildDirectory,locale=locale)
@@ -38,11 +41,14 @@ calendar = PhotoCalendar(
 	title                     = title,
 	titlePageImage            = titlePageImage,
 	titlePageBackground       = titlePageBackground,
+	lastPageBackground        = lastPageBackground,
 	nameDaysFile              = nameDaysFile,
 	religiousHolidaysFile     = religiousHolidaysFile,
 	publicHolidaysFile        = publicHolidaysFile,
 	notesFile                 = notesFile,
 	weekDayNamesFile          = weekDayNamesFile,
+	abbrWeekDayNamesFile      = abbrWeekDayNamesFile,
 	monthNamesFile            = monthNamesFile,
+	abbrMonthNamesFile        = abbrMonthNamesFile,
 )
 calendar.toHTML()

@@ -2,7 +2,7 @@
 PhotoCalendar is a [Python](https://python.org) utility to create custom weekly photo calendars.
 It creates the calendar in HTML format (which you can then print to PDF using browser or, e.g., [weasyptint utility](https://weasyprint.org)).
 The user may provide (see examples below):
-- name of weekdays and months
+- name of weekdays and months and their abbreviations
 - images (for each week, for title page, for backgrounds)
 - name-days
 - public holidays
@@ -50,12 +50,15 @@ calendar = PhotoCalendar( # not all arguments are mandatory
 	title                     = "Some calendar title",
 	titlePageImage            = "/some/image/for/title/page",
 	titlePageBackground       = "/some/background/image/for/titlepage",
+	lastPageBackground        = "/some/background/image/for/last/page",
 	nameDaysFile              = "/some/file/with/name-days",
 	religiousHolidaysFile     = "/some/file/with/religious/holidays",
 	publicHolidaysFile        = "/some/file/with/public/holidays",
 	notesFile                 = "/some/file/with/notes/like/birthdays/etc",
 	weekDayNamesFile          = "/some/file/with/custom/week/day/names",
+	abbrWeekDayNamesFile      = "/some/file/with/custom/abbreviated/week/day/names",
 	monthNamesFile            = "/some/file/with/custom/month/names",
+	abbrMonthNamesFile        = "/some/file/with/custom/abbreviated/month/names",
 	template                  = "delphinus",
 )
 calendar.toHTML()
@@ -74,12 +77,15 @@ photocalendar \
 	--title                       "Some calendar title" \
 	--title-page-image            /some/image/for/title/page \
 	--title-page-background       /some/background/image/for/titlepage \
+	--last-page-background        /some/background/image/for/last/page \
 	--name-days-file              /some/file/with/name-days \
 	--religious-holidays-file     /some/file/with/religious/holidays \
 	--public-holidays-file        /some/file/with/public/holidays \
 	--notes-file                  /some/file/with/notes/like/birthdays/etc \
 	--week-day-names-file         /some/file/with/custom/week/day/names \
+	--abbr-week-day-names-file    /some/file/with/custom/abbreviated/week/day/names \
 	--month-names-file            /some/file/with/custom/month/names \
+	--abbr-month-names-file       /some/file/with/custom/abbreviated/month/names \
 	--template                    delphinus
 ```
 

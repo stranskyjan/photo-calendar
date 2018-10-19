@@ -10,12 +10,15 @@ backgroundImagesDirectory=$dirData/backgrounds
 title="PhotoCalendar 2019"
 titlePageImage=$dirData/titlePageImage.png
 titlePageBackground=$dirData/titlePageBackground.png
+lastPageBackground=$dirData/lastPageBackground.png
 notesFile=$dirData/notes.dat
 nameDaysFile=$dirData/nameDays.dat
 religiousHolidaysFile=$dirData/religiousHolidays.dat
 publicHolidaysFile=$dirData/publicHolidays.dat
 weekDayNamesFile=$dirData/weekDayNames.dat
+abbrWeekDayNamesFile=$dirData/abbrWeekDayNames.dat
 monthNamesFile=$dirData/monthNames.dat
+abbrMonthNamesFile=$dirData/abbrMonthNames.dat
 
 photocalendar \
 	--output-base                 $dirBuild/example1-sh \
@@ -27,9 +30,12 @@ photocalendar \
 	--title                       "$title" \
 	--title-page-image            $titlePageImage \
 	--title-page-background       $titlePageBackground \
+	--last-page-background        $lastPageBackground \
 	--name-days-file              $nameDaysFile \
 	--religious-holidays-file     $religiousHolidaysFile \
 	--public-holidays-file        $publicHolidaysFile \
 	--notes-file                  $notesFile \
 	--week-day-names-file         $weekDayNamesFile \
-	--month-names-file            $monthNamesFile
+	--abbr-week-day-names-file    $abbrWeekDayNamesFile \
+	--month-names-file            $monthNamesFile \
+	--abbr-month-names-file       $abbrMonthNamesFile

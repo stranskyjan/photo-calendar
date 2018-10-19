@@ -4,7 +4,7 @@ Auxiliary script.
 
 Creates simple sample images for titlepage, weeks and backgrounds
 Creates final directory structure
-Copy common files to already prepared irectories
+Copies common files to already prepared directories
 """
 import os, sys
 import codecs
@@ -128,6 +128,11 @@ def createTitlePageBackground(topDirectory):
 	dst = os.path.join(topDirectory,DATA,"titlePageBackground")
 	createImage(dst,background=True)
 
+def createLastPageBackground(topDirectory):
+	"""create sample title page background"""
+	dst = os.path.join(topDirectory,DATA,"lastPageBackground")
+	createImage(dst,background=True)
+
 def createImagesDescription(topDirectory):
 	"""creates file with 53 sample image descriptions"""
 	fn = os.path.join(topDirectory,DATA,"imageDescriptions.dat")
@@ -147,7 +152,7 @@ def prepareDirectories(topDirectory):
 def copyCommonFiles(topDirectory):
 	"""copy some files from photocalendar/photocalendar/examples directory"""
 	srcdir = os.path.dirname(__file__)
-	for f in ("monthNames.dat","religiousHolidays.dat","notes.dat","weekDayNames.dat"):
+	for f in ("monthNames.dat","abbrMonthNames.dat","religiousHolidays.dat","notes.dat","weekDayNames.dat","abbrWeekDayNames.dat"):
 		src = os.path.join(srcdir,f)
 		dst = os.path.join(topDirectory,DATA,f)
 		shutil.copy(src,dst)
@@ -186,6 +191,7 @@ def main(topDirectory=None,seed=1234567,locale="cs_CZ"):
 	createBackgrounds(topDirectory)
 	createTitlePageImage(topDirectory)
 	createTitlePageBackground(topDirectory)
+	createLastPageBackground(topDirectory)
 
 if __name__ == "__main__":
 	main()

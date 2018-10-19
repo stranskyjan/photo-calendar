@@ -25,91 +25,150 @@ else: # ... but the internal module is used by default
 	from ..html import HTMLDocument as document
 	from ..html import meta,link,div,img,hr
 
-class HTMLFormatter:
-	"""Auxiliary class to create a HTML file from given PhotoCalendar instance. See also corresponding CSS form some more info."""
-	def createDoc(self,calendar):
-		self.doc = document(title=calendar.title) # use calendar.title
-		with self.doc.head:
-			meta(charset="utf-8")
-			link(rel='stylesheet', href="{}.css".format(os.path.basename(calendar.outputBase))) # add CSS file
-	def formatTitlePage(self,calendar):
-		# title page frame with background
-		bg = "background-image:url({});".format(calendar.titlePageBackground)
-		with div(cls="page",id="title-page",style=bg):
-			# title image
-			with div(id="title-page-image-container"):
-				with div(id="title-page-image-aspect-ratio"):
-					img(src=calendar.titlePageImage,alt="",id="title-page-image")
-			# title
-			div(calendar.title,id="title")
-	def formatWeeks(self,calendar):
-		for week in calendar.weeks:
-			self.formatWeek(week)
-	def formatWeek(self,week):
-		# week frame with background
-		mids = set(week.days[i].date.month for i in (0,-1))
-		bg = "background-image:url({});".format(week.backgroundImagePath)
-		with div(id="week-{}".format(week.number),cls="page week",style=bg):
-			# image
-			with div(cls="week-image-container"):
-				with div(cls="week-image-aspect-ratio"):
-					img(src=week.imagePath,cls="week-image",alt="")
-			# image description
-			div(week.imageDescription,cls="week-image-description")
-			# month name(s)
-			m1,m2 = week.month1,week.month2
-			if m1 is m2:
-				monthName = m1.name
-			else:
-				monthName = u"{} / {}".format(m1.name,m2.name)
-			div(monthName,cls="month-name")
-			# week number
-			number = u"Week {}".format(week.number)
-			div(number,cls="week-number")
-			# days
-			self.formatDays(week.days)
-	def formatDays(self,days):
-		with div(cls="days"):
-			hr()
-			for day in days:
-				self.formatDay(day)
-				hr()
-	def formatDay(self,day):
-		# collect classes
-		wd = day.date.weekday()
-		dayname = ("monday","tuesday","wednesday","thursday","friday","saturday","sunday")[wd]
-		classes = ["day","day-{}".format(dayname)]
-		if day.publicHoliday:
-			classes.append("day-is-public-holiday")
-		if day.religiousHoliday:
-			classes.append("day-is-religious-holiday")
-		if day.note:
-			classes.append("day-isnote")
-		cls = " ".join(classes)
-		# day div
-		with div(cls=cls):
-			# name
-			div(day.name,cls="day-name")
-			# number
-			number = "{}".format(day.date.day)
-			div(number,cls="day-number")
-			# name-day
-			div(day.nameDay,cls="day-name-day")
-			# religious holiday
-			div(day.religiousHoliday,cls="day-religious-holiday")
-			# public holiday
-			p = "" if day.nameDay == day.publicHoliday else day.publicHoliday
-			div(p,cls="day-public-holiday")
-			# note
-			div(day.note,cls="day-note")
-	def toHTMLString(self,calendar):
-		self.createDoc(calendar)
-		with self.doc.body:
-			self.formatTitlePage(calendar)
-			self.formatWeeks(calendar)
-		toString = str if six.PY3 else unicode
-		return toString(self.doc)
 
-# template mandatory members
+def createDoc(calendar):
+	doc = document(title=calendar.title) # use calendar.title
+	with doc.head:
+		meta(charset="utf-8")
+		link(rel='stylesheet', href="{}.css".format(os.path.basename(calendar.outputBase))) # add CSS file
+	return doc
+
+def formatTitlePage(calendar):
+	# title page frame with background
+	bg = "background-image:url({});".format(calendar.titlePageBackground)
+	with div(cls="page",id="title-page",style=bg):
+		# title image
+		with div(id="title-page-image-container"):
+			with div(id="title-page-image-aspect-ratio"):
+				img(src=calendar.titlePageImage,alt="",id="title-page-image")
+		# title
+		div(calendar.title,id="title")
+
+def formatWeeks(calendar):
+	for week in calendar.weeks:
+		formatWeek(week)
+
+def formatWeek(week):
+	# week frame with background
+	mids = set(week.days[i].date.month for i in (0,-1))
+	bg = "background-image:url({});".format(week.backgroundImagePath)
+	with div(id="week-{}".format(week.number),cls="page week",style=bg):
+		# image
+		with div(cls="week-image-container"):
+			with div(cls="week-image-aspect-ratio"):
+				img(src=week.imagePath,cls="week-image",alt="")
+		# image description
+		div(week.imageDescription,cls="week-image-description")
+		# month name(s)
+		m1,m2 = week.month1,week.month2
+		if m1 is m2:
+			monthName = m1.name
+		else:
+			monthName = u"{} / {}".format(m1.name,m2.name)
+		div(monthName,cls="month-name")
+		# week number
+		number = u"Week {}".format(week.number)
+		div(number,cls="week-number")
+		# days
+		formatDays(week.days)
+
+def formatDays(days):
+	with div(cls="days"):
+		hr()
+		for day in days:
+			formatDay(day)
+			hr()
+
+def getWeekDayName(index):
+	return ("monday","tuesday","wednesday","thursday","friday","saturday","sunday")[index]
+
+def formatDay(day):
+	# collect classes
+	wd = day.date.weekday()
+	dayname = getWeekDayName(wd)
+	classes = ["day","day-{}".format(dayname)]
+	if day.publicHoliday:
+		classes.append("day-is-public-holiday")
+	if day.religiousHoliday:
+		classes.append("day-is-religious-holiday")
+	if day.note:
+		classes.append("day-is-note")
+	cls = " ".join(classes)
+	# day div
+	with div(cls=cls):
+		# name
+		div(day.name,cls="day-name")
+		# number
+		number = "{}".format(day.date.day)
+		div(number,cls="day-number")
+		# name-day
+		div(day.nameDay,cls="day-name-day")
+		# religious holiday
+		div(day.religiousHoliday,cls="day-religious-holiday")
+		# public holiday
+		p = "" if day.nameDay == day.publicHoliday else day.publicHoliday
+		div(p,cls="day-public-holiday")
+		# note
+		div(day.note,cls="day-note")
+
+def formatLastPage(calendar):
+	# last page with background and year calendar
+	bg = "background-image:url({});".format(calendar.lastPageBackground)
+	with div(cls="page",id="last-page",style=bg):
+		# year
+		div(calendar.year,id="last-page-year")
+		# 2 lines of Jan-Jun and Jul-Dec months
+		for months in (calendar.months[:6],calendar.months[6:]):
+			with div(cls="last-page-months"):
+				formatLastPageMonths(months,calendar.year)
+
+def formatLastPageMonths(months,year):
+	for month in months:
+		formatLastPageMonth(month,year)
+
+def formatLastPageMonth(month,year):
+	# one full month
+	with div(cls="last-page-month"):
+		# month name
+		div(month.name,cls="last-page-month-name")
+		# weekday names abbreviations
+		with div(cls="last-page-month-line last-page-month-line-1"):
+			for day in month.weeks[0].days:
+				name = day.abbrName
+				wd = day.date.weekday()
+				dayname = getWeekDayName(wd)
+				classes = ["last-page-month-element","last-page-month-element-{}".format(dayname)]
+				div(name,cls=u" ".join(classes))
+		# weeks as line
+		for week in month.weeks:
+			with div(cls="last-page-month-line"):
+				for day in week.days:
+					number = day.date.day if day.month is month and day.date.year == year else ""
+					if not number:
+						div(cls="last-page-month-element")
+						continue
+					# collect classes
+					wd = day.date.weekday()
+					dayname = getWeekDayName(wd)
+					classes = ["last-page-month-element","last-page-month-element-{}".format(dayname)]
+					if day.publicHoliday:
+						classes.append("last-page-month-element-is-public-holiday")
+					if day.religiousHoliday:
+						classes.append("last-page-month-element-is-religious-holiday")
+					if day.note:
+						classes.append("last-page-month-element-is-note")
+					cls = " ".join(classes)
+					div(number,cls=cls)
+
+# template mandatory toHTMLString(calendar) function
+def toHTMLString(calendar):
+	doc = createDoc(calendar)
+	with doc.body:
+		formatTitlePage(calendar)
+		formatWeeks(calendar)
+		formatLastPage(calendar)
+	toString = str if six.PY3 else unicode
+	return toString(doc)
+
+# template mandatory CSSString constant
 CSSString = loadCSS(__file__)
-toHTMLString = lambda calendar: HTMLFormatter().toHTMLString(calendar)

@@ -15,18 +15,25 @@ class Day:
 	
 	:param datetime.date date: datetime.date instance for the day
 	:param str name: name of the day (e.g. Monday)
+	:param str abbrName: abbreviation of the name of the day (e.g. Mo)
 	:param str nameDay: name day, saint's day (e.g. Jan, Patrik, ...)
 	:param str religiousHoliday: name of religious holidays (e.g. Easter, Chinese New Year, Ramadan, Pesach, ...)
 	:param str publicHoliday: name of public holiday (e.g. Labour day, Independence day, German Unity Day, ...)
 	:param str note: note (e.g. a friend's birthday, wedding anniversary, ...)
 	"""
-	def __init__(self, date, name = u"", nameDay = u"", religiousHoliday = u"", publicHoliday = u"", note = u""):
+	def __init__(self, date, name = u"", abbrName = u"", nameDay = u"", religiousHoliday = u"", publicHoliday = u"", note = u""):
 		self.date = date
 		self.name = name
+		self.abbrName = abbrName
 		self.nameDay = nameDay
 		self.religiousHoliday = religiousHoliday
 		self.publicHoliday = publicHoliday
 		self.note = note
+		#
+		#: :class:`Month <photocalendar.Month>` isntance which the day belongs to
+		self.month = None
+		#: :class:`Week <photocalendar.Week>` isntance which the day belongs to
+		self.week = None
 
 class Week:
 	"""
@@ -57,10 +64,17 @@ class Month:
 	"""
 	Class representing a month
 	
-	:param str name: name of the month
+	:param str name: name of the month (e.g. February)
+	:param str abbrName: abbreviation of the name of the month (e.g. Feb)
 	"""
-	def __init__(self, name=u""):
+	def __init__(self, name = u"", abbrName = u""):
 		self.name = name
+		self.abbrName = abbrName
+		#
+		#: list of :class:`Weeks <photocalendar.Week>` belonging (at least partially) to the month
+		self.weeks = []
+		#: list of :class:`Days <photocalendar.Week>` belonging to the month
+		self.days = []
 ######################################################################
 
 
@@ -91,12 +105,15 @@ _attrdocs = dict(
 	title                     = "calendar title",
 	titlePageImage            = "path to title page image",
 	titlePageBackground       = "path to title page background image",
+	lastPageBackground        = "path to last page background image",
 	nameDaysFile              = "file with name-days, see ``locale/cs_CZ/dayNames.dat`` for illustration",
 	religiousHolidaysFile     = "file with religious holidays, see ``examples/religiousHolidays.dat`` for illustration",
 	publicHolidaysFile        = "file with public holidays, see ``locale/cs_CZ/publicHolidays.dat`` for illustration",
 	notesFile                 = "file with notes, see ``examples/notes.dat`` for illustration",
 	weekDayNamesFile          = "file with custom weekday names. If not specifed, names from locale are used.",
+	abbrWeekDayNamesFile      = "file with custom abbreviations of weekday names. If not specifed, names from locale are used.",
 	monthNamesFile            = "file with custom month names. If not specifed, names from locale are used.",
+	abbrMonthNamesFile        = "file with custom abbreviations of month names. If not specifed, names from locale are used.",
 	template                  = """template name to be used for HTML/CSS formatting. It is:
 		
 		1) name of package predefined template (e.g. ``delphinus``)
@@ -117,12 +134,15 @@ class PhotoCalendar:
 	:param str title: {title}
 	:param str titlePageImage: {titlePageImage}
 	:param str titlePageBackground: {titlePageBackground}
+	:param str lastPageBackground: {lastPageBackground}
 	:param str nameDaysFile: {nameDaysFile}
 	:param str religiousHolidaysFile: {religiousHolidaysFile}
 	:param str publicHolidaysFile: {publicHolidaysFile}
 	:param str notesFile: {notesFile}
 	:param str weekDayNamesFile: {weekDayNamesFile}
+	:param str abbrWeekDayNamesFile: {abbrWeekDayNamesFile}
 	:param str monthNamesFile: {monthNamesFile}
+	:param str abbrMonthNamesFile: {abbrMonthNamesFile}
 	:param str template: {template}
 	"""
 	def __init__(self,
@@ -135,12 +155,15 @@ class PhotoCalendar:
 			title                     = u"",
 			titlePageImage            = u"",
 			titlePageBackground       = u"",
+			lastPageBackground        = u"",
 			nameDaysFile              = u"",
 			religiousHolidaysFile     = u"",
 			publicHolidaysFile        = u"",
 			notesFile                 = u"",
 			weekDayNamesFile          = u"",
+			abbrWeekDayNamesFile      = u"",
 			monthNamesFile            = u"",
+			abbrMonthNamesFile        = u"",
 			template                  = "delphinus",
 	):
 		self.outputBase = outputBase
@@ -152,19 +175,26 @@ class PhotoCalendar:
 		self.title = title
 		self.titlePageImage = titlePageImage
 		self.titlePageBackground = titlePageBackground
+		self.lastPageBackground = lastPageBackground
 		self.nameDaysFile = nameDaysFile
 		self.religiousHolidaysFile = religiousHolidaysFile
 		self.publicHolidaysFile = publicHolidaysFile
 		self.notesFile = notesFile
 		self.template = template
 		self.weekDayNamesFile = weekDayNamesFile
+		self.abbrWeekDayNamesFile = abbrWeekDayNamesFile
 		self.monthNamesFile = monthNamesFile
+		self.abbrMonthNamesFile = abbrMonthNamesFile
 		#
 		self._firstWeekDayId = None
 		#: names of weekdays
 		self.weekDayNames = None
+		#: abbreviations of weekdays names
+		self.abbrWeekDayNames = None
 		#: names of months
 		self.monthNames = None
+		#: abbreviations of month names
+		self.abbrMonthNames = None
 		#: list of 53 or 0 image urls to be used for weeks
 		self.images = None
 		#: list of 53 or 0 image urls to be used as background for weeks
@@ -214,13 +244,16 @@ class PhotoCalendar:
 			if d.year != self.year:
 				break
 		#
-		self.months = dict((i+1,Month(name)) for i,name in enumerate(self.monthNames))
+		self.months = [Month(name,abbrName) for name,abbrName in zip(self.monthNames,self.abbrMonthNames)]
 		#
 		for iweek,week in enumerate(self.weeks):
 			week.number = iweek+1
-			m1,m2 = [self.months[week.days[i].date.month] for i in (0,-1)]
-			week.month1 = m1
-			week.month2 = m2
+			month1,month2 = [self.months[week.days[i].date.month-1] for i in (0,-1)]
+			week.month1 = month1
+			week.month2 = month2
+			month1.weeks.append(week)
+			if not month1 is month2:
+				month2.weeks.append(week)
 			if self.images:
 				week.imagePath = self.images[iweek]
 			if self.backgroundImages:
@@ -231,7 +264,12 @@ class PhotoCalendar:
 				m = day.date.month
 				d = day.date.day
 				w = day.date.weekday()
+				month = self.months[m-1]
+				month.days.append(day)
+				day.week = week
+				day.month = month
 				day.name = self.weekDayNames[w]
+				day.abbrName = self.abbrWeekDayNames[w]
 				if self.nameDays:
 					day.nameDay = self.nameDays[m].get(d,u"")
 				if self.religiousHolidays:
@@ -251,7 +289,7 @@ class PhotoCalendar:
 		self.loadPublicHolidays()
 		self.loadNotes()
 	def loadLocaleNames(self):
-		"""Loads weekday and month names from files. If files are not specified, set the names according to locale package"""
+		"""Loads weekday, month names and their abbreviations from files. If a file is not specified, set the names according to locale package"""
 		if self.weekDayNamesFile:
 			self.weekDayNames = _loadLinesFromFile(self.weekDayNamesFile)
 			assert len(self.weekDayNames) == 7
@@ -261,6 +299,15 @@ class PhotoCalendar:
 			if six.PY2:
 				self.weekDayNames = [n.decode("utf-8") for n in self.weekDayNames]
 		#
+		if self.abbrWeekDayNamesFile:
+			self.abbrWeekDayNames = _loadLinesFromFile(self.abbrWeekDayNamesFile)
+			assert len(self.abbrWeekDayNames) == 7
+		else:
+			import locale
+			self.abbrWeekDayNames = [locale.nl_langinfo(getattr(locale,"ABDAY_{}".format(1+(i+2)%7))) for i in range(7)]
+			if six.PY2:
+				self.abbrWeekDayNames = [n.decode("utf-8") for n in self.abbrWeekDayNames]
+		#
 		if self.monthNamesFile:
 			self.monthNames = _loadLinesFromFile(self.monthNamesFile)
 			assert len(self.monthNames) == 12
@@ -269,6 +316,15 @@ class PhotoCalendar:
 			self.monthNames = [locale.nl_langinfo(getattr(locale,"MON_{}".format(i+1))) for i in range(12)]
 			if six.PY2:
 				self.monthNames = [n.decode("utf-8") for n in self.monthNames]
+		#
+		if self.abbrMonthNamesFile:
+			self.abbrMonthNames = _loadLinesFromFile(self.abbrMonthNamesFile)
+			assert len(self.abbrMonthNames) == 12
+		else:
+			import locale
+			self.abbrMonthNames = [locale.nl_langinfo(getattr(locale,"ABMON_{}".format(i+1))) for i in range(12)]
+			if six.PY2:
+				self.abbrMonthNames = [n.decode("utf-8") for n in self.abbrMonthNames]
 	def loadImages(self):
 		"""load images according to given directory. The directory has to contain exactly 53 files. They are used in alphabetical order"""
 		self.images = None
