@@ -39,9 +39,11 @@ def body(calendar):
 	return ret
 
 def weeks(calendar):
-	return u"\n".join(week(calendar.weeks[i]) for i in range(53))
+	return u"\n".join(week(calendar,i) for i in range(53))
 
-def week(week):
+def week(calendar,i):
+	week = calendar.weeks[i]
+	image = calendar.images[i]
 	return u"""
 		<div style="
 			position: relative;
@@ -60,7 +62,7 @@ def week(week):
 			{days}
 		</div>
 	""".format(
-		image = week.imagePath,
+		image = image,
 		number = week.number,
 		month1 = week.month1.name,
 		month2 = week.month2.name,

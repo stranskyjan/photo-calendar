@@ -338,7 +338,7 @@ class PhotoCalendar:
 		if not self.imageDescriptionsFile:
 			return
 		self.imageDescriptions = _loadLinesFromFile(self.imageDescriptionsFile)
-		self.imageDescriptions = [u"" if d == ur"\EMPTYLINE" else d for d in self.imageDescriptions]
+		self.imageDescriptions = [u"" if d == r"\EMPTYLINE" else d for d in self.imageDescriptions]
 	def loadNameDays(self):
 		"""load name-days from given file (if provided)"""
 		self.nameDays = None
