@@ -5,8 +5,6 @@ import six
 from six import string_types
 from .templates import loadTemplate
 
-_NWEEKS = 53
-
 ######################################################################
 class Day:
 	"""
@@ -38,27 +36,22 @@ class Day:
 class Week:
 	"""
 	Class representing a week.
-	It contains 7 :class:`days <photocalendar.Day>`, beginning and ending :class:`months <photocalendar.Month>` and info about images
+	It contains 7 :class:`days <photocalendar.Day>`, beginning and ending :class:`months <photocalendar.Month>`
 	
 	:param days: tuple of 7 :class:`Day <photocalendar.Day>` instances
 	:type days: tuple(:class:`Day <photocalendar.Day>`)
+	:param int number: week number
 	:param month1: :class:`Month <photocalendar.Month>` instance of the first day of the week
 	:type month1: :class:`Month <photocalendar.Month>`
 	:param month2: :class:`Month <photocalendar.Month>` instance of the last day of the week
 	:type month2: :class:`Month <photocalendar.Month>`
-	:param str imagePath: path to image for the week
-	:param str imageDescription: image description
-	:param str backgroundImagePath: path to background image
 	"""
-	def __init__(self, days, number=-1, month1=None, month2=None, imagePath="", imageDescription="", backgroundImagePath=""):
+	def __init__(self, days, number=-1, month1=None, month2=None):
 		self.days = tuple(days)
 		assert len(days) == 7
 		self.number = number
 		self.month1 = month1
 		self.month2 = month2
-		self.imagePath = imagePath
-		self.imageDescription = imageDescription
-		self.backgroundImagePath = backgroundImagePath
 
 class Month:
 	"""
@@ -117,7 +110,7 @@ _attrdocs = dict(
 	template                  = """template name to be used for HTML/CSS formatting. It is:
 		
 		1) name of package predefined template (e.g. ``delphinus``)
-		2) TODO custom templates
+		2) custome template (path + python importable name, e.g. ``os.path.join("some","cusom","template")``). See examples/cusom-template and/or source code of package templates.
 		""",
 )
 
@@ -254,12 +247,6 @@ class PhotoCalendar:
 			month1.weeks.append(week)
 			if not month1 is month2:
 				month2.weeks.append(week)
-			if self.images:
-				week.imagePath = self.images[iweek]
-			if self.backgroundImages:
-				week.backgroundImagePath = self.backgroundImages[iweek]
-			if self.imageDescriptions:
-				week.imageDescription = self.imageDescriptions[iweek]
 			for day in week.days:
 				m = day.date.month
 				d = day.date.day
@@ -332,7 +319,6 @@ class PhotoCalendar:
 			return
 		fs = os.listdir(self.imagesDirectory)
 		self.images = sorted(os.path.abspath(os.path.join(self.imagesDirectory,f)) for f in fs)
-		assert len(self.images) == _NWEEKS
 	def loadBackgroundImages(self):
 		"""load background images according to given directory. The directory has to contain exactly 53 files. They are used in alphabetical order"""
 		self.backgroundImages = None
@@ -340,7 +326,6 @@ class PhotoCalendar:
 			return
 		fs = os.listdir(self.backgroundImagesDirectory)
 		self.backgroundImages = sorted(os.path.abspath(os.path.join(self.backgroundImagesDirectory,f)) for f in fs)
-		assert len(self.backgroundImages) == _NWEEKS
 	def loadImageDescriptions(self):
 		"""
 		load image descriptions from given file. empty lines are skipped.
@@ -353,7 +338,7 @@ class PhotoCalendar:
 		if not self.imageDescriptionsFile:
 			return
 		self.imageDescriptions = _loadLinesFromFile(self.imageDescriptionsFile)
-		assert len(self.imageDescriptions) == _NWEEKS
+		self.imageDescriptions = [u"" if d == ur"\EMPTYLINE" else d for d in self.imageDescriptions]
 	def loadNameDays(self):
 		"""load name-days from given file (if provided)"""
 		self.nameDays = None

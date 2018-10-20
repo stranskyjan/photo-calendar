@@ -20,7 +20,7 @@ import six
 from .. import loadCSS
 if 0: # you can use dominate if you like (the syntax is identical) ...
 	from dominate import document
-	from dominate.tags import meta,link,div,img
+	from dominate.tags import meta,link,div,img,hr
 else: # ... but the internal module is used by default
 	from ..html import HTMLDocument as document
 	from ..html import meta,link,div,img,hr
@@ -45,20 +45,24 @@ def formatTitlePage(calendar):
 		div(calendar.title,id="title")
 
 def formatWeeks(calendar):
-	for week in calendar.weeks:
-		formatWeek(week)
+	empty = ["" for _ in range(53)]
+	images            = calendar.images            if calendar.images            else empty
+	backgroundImages  = calendar.backgroundImages  if calendar.backgroundImages  else empty
+	imageDescriptions = calendar.imageDescriptions if calendar.imageDescriptions else empty
+	assert all(len(vs) >= 53 for vs in (images,backgroundImages,imageDescriptions))
+	for week,image,backgroundImage,imageDescription in zip(calendar.weeks,images,backgroundImages,imageDescriptions):
+		formatWeek(week,image,backgroundImage,imageDescription)
 
-def formatWeek(week):
+def formatWeek(week,image,backgroundImage,imageDescription):
 	# week frame with background
-	mids = set(week.days[i].date.month for i in (0,-1))
-	bg = "background-image:url({});".format(week.backgroundImagePath)
+	bg = "background-image:url({});".format(backgroundImage)
 	with div(id="week-{}".format(week.number),cls="page week",style=bg):
 		# image
 		with div(cls="week-image-container"):
 			with div(cls="week-image-aspect-ratio"):
-				img(src=week.imagePath,cls="week-image",alt="")
+				img(src=image,cls="week-image",alt="")
 		# image description
-		div(week.imageDescription,cls="week-image-description")
+		div(imageDescription,cls="week-image-description")
 		# month name(s)
 		m1,m2 = week.month1,week.month2
 		if m1 is m2:
