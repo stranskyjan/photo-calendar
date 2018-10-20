@@ -24,6 +24,8 @@ PhotoCalendar class
 .. autoclass:: photocalendar.PhotoCalendar
 	:members:
 
+.. _section-templates:
+
 Templates
 =========
 .. automodule:: photocalendar.templates
@@ -34,13 +36,23 @@ HTML file creation
 .. automodule:: photocalendar.templates.html
 	:members:
 
-.. _label-section-template-delphinus:
-
 Template **delphinus**
 ----------------------
 .. automodule:: photocalendar.templates.delphinus
 
 .. image:: ../images/delphinus.png
+
+Template **columba**
+----------------------
+.. automodule:: photocalendar.templates.columba
+
+.. image:: ../images/columba.png
+
+Template **lupus**
+----------------------
+.. automodule:: photocalendar.templates.lupus
+
+.. image:: ../images/lupus.png
 
 Command line usage
 ==================

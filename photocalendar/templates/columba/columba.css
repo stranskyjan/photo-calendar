@@ -1,0 +1,188 @@
+/*
+A very basic CSS file (only positioning and basic coloring) for delphinus template.
+*/
+
+/**********************************************************************
+* C O M M O N   S E T T I N G S
+**********************************************************************/
+/* for printing, tested with Chrome browser */
+@page {
+	margin: 0;
+	size: 210mm 297mm; /* should be the same as .page */
+}
+
+/* title page or week pages */
+.page {
+	position: relative;
+	width: 210mm; /* shuold be the same as @page */
+	height: 297mm; /* shuold be the same as @page */
+	background-size: cover; /* fit the background image to entire page */
+	page-break-after: always; /* helps printing */
+}
+
+/* default 0 margin, padding */
+* {
+	padding: 0;
+	margin: 0;
+}
+
+/* default font */
+body {
+	font-family: Arial;
+	font-size: 12mm;
+}
+
+/**********************************************************************
+* T I T L E   P A G E
+**********************************************************************/
+/* width and position of title image */
+#title-page-image-container {
+	position: relative;
+	width: 80%;
+	left: 10%;
+	top: 6%;
+}
+
+#title-page-image-aspect-ratio {
+	position: relative;
+	padding-bottom: 133%; /* aspect ratio 3:4 */
+}
+
+#title-page-image {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+/* position and size of title */
+#title {
+	position: relative;
+	top: 8%;
+	font-size: 150%;
+	/* centering */
+	width: 100%;
+	text-align: center;
+}
+
+/**********************************************************************
+* M O N T H S
+**********************************************************************/
+/* width and position of month image */
+.month-image-container {
+	position: absolute;
+	width: 90%;
+	left: 5%;
+	top: 6%;
+}
+
+.month-image-aspect-ratio {
+	position: relative;
+	padding-bottom: 66.6%; /* aspect ratio 3:2 */
+}
+
+/* size and position of month images */
+.month-image {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.month-image-description {
+	position: absolute;
+	top: 49%;
+	font-size: 40%;
+	/* centering */
+	width: 50%;
+	left: 25%;
+	font-style: italic;
+	text-align: center;
+}
+
+.month-description {
+	position: absolute;
+	top: 49%;
+	margin-left: 5%;
+	width: 90%;
+	text-align-last: justify;
+	font-size: 120%;
+}
+
+.month-name {
+	display: inline-block;
+}
+
+.month-year {
+	display: inline-block;
+}
+
+/**********************************************************************
+* D A Y S
+**********************************************************************/
+.days {
+	position: absolute;
+	top: 55%;
+	width: 90%;
+	left: 5%;
+	height: 50%;
+}
+
+.days-line {
+	width: 100%;
+	height: 14%;
+	text-align: justify;
+	text-align-last: justify;
+}
+
+.days-line-1 {
+	height: auto;
+	font-size: 40%;
+}
+
+.day-weekday-name {
+	display: inline-block;
+	text-align: center;
+	text-align-last: center;
+	width: 12%;
+}
+
+.day {
+	display: inline-block;
+	width: 12%;
+	height: 100%;
+	text-align: center;
+	text-align-last: center;
+	vertical-align: top; /* vertical top alignment */
+}
+
+.day-number {
+	font-weight: bold;
+	margin-bottom: -6%;
+}
+
+.day-name-day {
+	font-size: 20%;
+}
+
+.day-public-holiday {
+	font-size: 20%;
+}
+
+.day-religious-holiday {
+	font-size: 20%;
+	font-style: italic;
+	color: darkgreen;
+}
+
+.day-note {
+	font-size: 20%;
+	color: blue;
+	font-style: italic;
+}
+
+.day-sunday {
+	color: red;
+}
+
+.day-is-public-holiday {
+	color: red;
+}

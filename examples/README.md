@@ -7,8 +7,11 @@ I creates simple sample images for titlepage, weeks and backgrounds and also cre
 
 ## Actual examples
 
-### example1
+### [example1](example1)
 The example shows how to use arguments of PhotoCalendar class and/or command line parameters.
 
-### custom-template
+### [custom-template](custom-template)
 The example shows how to define and use a custom template.
+
+### [templates](templates)
+The example shows a sample calendar for each implemented template.

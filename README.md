@@ -1,5 +1,5 @@
 # PhotoCalendar
-PhotoCalendar is a [Python](https://python.org) utility to create custom weekly photo calendars.
+PhotoCalendar is a [Python](https://python.org) utility to create custom weekly/monthly/... photo calendars.
 It creates the calendar in HTML format (which you can then print to PDF using browser or, e.g., [weasyptint utility](https://weasyprint.org)).
 The user may provide (see examples below):
 - name of weekdays and months and their abbreviations
@@ -12,7 +12,7 @@ The user may provide (see examples below):
 
 The produced HTML structure as well as the CSS styling is fully customizable and (according to the author's opinion :-) flexible and easy to use.
 See [examples](examples) and/or documentation for more information.
-As an example and inspiration, one predefined theme `delphinus` is provided.
+As an example and inspiration, a few predefined templates are provided.
 
 The package works with both Python 2 and 3 (tested on [Ubuntu 16.04 LTS](https://www.ubuntu.com/) and Python 2.7.12 and Python 3.5.2).
 
@@ -21,7 +21,7 @@ Note:
 the photos and backgrounds are only illustrative.
 They are provided by the user in the real use case.
 
-The title page (left) and the 18th week (right) is shown.
+The title page (left) and an inside page (right) is shown.
 
 In the illustrations,
 [picture](https://upload.wikimedia.org/wikipedia/commons/d/d1/Golden_Gate_1.jpg)
@@ -35,6 +35,12 @@ are used.
 
 ### Template delphinus:
 ![template delphinus](images/delphinus.png)
+
+### Template columba:
+![template delphinus](images/columba.png)
+
+### Template lupus:
+![template delphinus](images/lupus.png)
 
 ### Code example
 ##### using python:
@@ -105,7 +111,3 @@ photocalendar \
 ## Acknowledgement
 - to Petr Hlaváček for the inital idea and LaTeX implementation and providing his source code
 - to [dominate python package](https://github.com/Knio/dominate) for HTML creation inspiration
-
-## TODO
-- more templates
-- monthly calendar? two-week calendars?

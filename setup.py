@@ -2,7 +2,11 @@
 # -*- coding: utf-8 -*-
 from distutils.core import setup
 
-templates = ('delphinus',)
+templates = (
+	'delphinus',
+	'columba',
+	'lupus',
+)
 
 setup(
 	name = 'PhotoCalendar',

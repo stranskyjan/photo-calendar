@@ -26,6 +26,7 @@ weekDayNamesFile          = os.path.join(dataDirectory,"weekDayNames.dat")      
 abbrWeekDayNamesFile      = os.path.join(dataDirectory,"abbrWeekDayNames.dat")    # ... or custom abbreviations of weekday names
 monthNamesFile            = os.path.join(dataDirectory,"monthNames.dat")          # ... or custom names of months
 abbrMonthNamesFile        = os.path.join(dataDirectory,"abbrMonthNames.dat")      # ... or custom abbreviations of month names
+template                  = "delphinus"
 
 # create sample images and other data
 preprocessExample(buildDirectory,locale=locale)
@@ -50,5 +51,6 @@ calendar = PhotoCalendar(
 	abbrWeekDayNamesFile      = abbrWeekDayNamesFile,
 	monthNamesFile            = monthNamesFile,
 	abbrMonthNamesFile        = abbrMonthNamesFile,
+	template                  = template,
 )
 calendar.toHTML()

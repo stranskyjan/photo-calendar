@@ -1,21 +1,21 @@
 """
-A very basic tamplate for weekly calendar.
+A very basic tamplate for two-week calendar.
 Serving mainly as a reference for more sophisticated templates.
-The paper size is A5 landscape.
+The paper size is half of A4 landscape (297x105).
 
 **Title page**:
 
 - centered
-- title image aspect ratio is 16:9.
+- title image aspect ratio is 2:1
 
 **Weeks**:
 
-- image on the left side
-- days on the right side
+- image in the middle
+- days on the left and on the right side
 - days as lines separated by horizontal line on the right side
-- images are square
+- image aspect ratio is 4:3
 - image descriptions are below images
-- week number and month name(s) are at the top, above days
+- week number and month name(s) are at the bottom of the page
 """
 import os
 import six
@@ -46,19 +46,22 @@ def formatTitlePage(calendar):
 		# title
 		div(calendar.title,id="title")
 
-def formatWeeks(calendar):
-	empty = ["" for _ in range(53)]
+def formatDoubleWeeks(calendar):
+	empty = ["" for _ in range(27)]
 	images            = calendar.images            if calendar.images            else empty
 	backgroundImages  = calendar.backgroundImages  if calendar.backgroundImages  else empty
 	imageDescriptions = calendar.imageDescriptions if calendar.imageDescriptions else empty
-	assert all(len(vs) >= 53 for vs in (images,backgroundImages,imageDescriptions))
-	for week,image,backgroundImage,imageDescription in zip(calendar.weeks,images,backgroundImages,imageDescriptions):
-		formatWeek(week,image,backgroundImage,imageDescription)
+	assert all(len(vs) >= 27 for vs in (images,backgroundImages,imageDescriptions))
+	weeks1 = [week for week in calendar.weeks if week.number % 2 != 0]
+	weeks2 = [week for week in calendar.weeks if week.number % 2 == 0] + [None]
+	assert all(len(weeks) == 27 for weeks in (weeks1,weeks2))
+	for week1,week2,image,backgroundImage,imageDescription in zip(weeks1,weeks2,images,backgroundImages,imageDescriptions):
+		formatDoubleWeek(week1,week2,image,backgroundImage,imageDescription)
 
-def formatWeek(week,image,backgroundImage,imageDescription):
+def formatDoubleWeek(week1,week2,image,backgroundImage,imageDescription):
 	# week frame with background
 	bg = "background-image:url({});".format(backgroundImage)
-	with div(id="week-{}".format(week.number),cls="page week",style=bg):
+	with div(cls="page",style=bg):
 		# image
 		with div(cls="week-image-container"):
 			with div(cls="week-image-aspect-ratio"):
@@ -66,24 +69,29 @@ def formatWeek(week,image,backgroundImage,imageDescription):
 		# image description
 		div(imageDescription,cls="week-image-description")
 		# month name(s)
-		m1,m2 = week.month1,week.month2
-		if m1 is m2:
-			monthName = m1.name
+		month1 = week1.month1
+		month2 = week2.month2 if week2 else month1
+		if month1 is month2:
+			monthName = month1.name
 		else:
-			monthName = u"{} / {}".format(m1.name,m2.name)
+			monthName = u"{} / {}".format(month1.name,month2.name)
 		div(monthName,cls="month-name")
-		# week number
-		number = u"Week {}".format(week.number)
-		div(number,cls="week-number")
 		# days
-		formatDays(week.days)
+		with div(cls="double-week"):
+			with div(cls="week week-1"):
+				formatWeek(week1)
+			if week2:
+				with div(cls="week week-2"):
+					formatWeek(week2)
 
-def formatDays(days):
-	with div(cls="days"):
+def formatWeek(week):
+	hr()
+	for day in week.days:
+		formatDay(day)
 		hr()
-		for day in days:
-			formatDay(day)
-			hr()
+	# week number
+	number = u"Week {}".format(week.number)
+	div(number,cls="week-number")
 
 def getWeekDayName(index):
 	return ("monday","tuesday","wednesday","thursday","friday","saturday","sunday")[index]
@@ -171,7 +179,7 @@ def toHTMLString(calendar):
 	doc = createDoc(calendar)
 	with doc.body:
 		formatTitlePage(calendar)
-		formatWeeks(calendar)
+		formatDoubleWeeks(calendar)
 		formatLastPage(calendar)
 	toString = str if six.PY3 else unicode
 	return toString(doc)

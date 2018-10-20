@@ -134,10 +134,12 @@ def createLastPageBackground(topDirectory):
 	createImage(dst,background=True)
 
 def createImagesDescription(topDirectory):
-	"""creates file with 53 sample image descriptions"""
+	"""creates file with 53 sample image descriptions (empty description for 4th week)"""
 	fn = os.path.join(topDirectory,DATA,"imageDescriptions.dat")
+	lines = [u"Description of fig {}, unicode úùŭûǔůüǘǜǚǖűũṹųų́ų̃ūṻū̀ū́ū̃ȕȗưựụṳṷṵ\n".format(i+1) for i in range(53)]
+	lines[3] = u"\\EMPTYLINE\n"
 	with codecs.open(fn,"w",encoding="utf-8") as f:
-		f.writelines(u"Description of fig {}, unicode úùŭûǔůüǘǜǚǖűũṹųų́ų̃ūṻū̀ū́ū̃ȕȗưựụṳṷṵ\n".format(i+1) for i in range(53))
+		f.writelines(lines)
 
 def prepareDirectories(topDirectory):
 	"""delete topDirectory and prepare directory structure"""

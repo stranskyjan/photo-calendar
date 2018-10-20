@@ -81,6 +81,7 @@ examples:
 	@cd examples
 	$(call run_example, example1)
 	$(call run_example, custom-template)
+	$(call run_example, templates)
 
 
 clean:

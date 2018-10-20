@@ -1,0 +1,260 @@
+/*
+A very basic CSS file (only positioning and basic coloring) for delphinus template.
+*/
+
+/**********************************************************************
+* C O M M O N   S E T T I N G S
+**********************************************************************/
+/* for printing, tested with Chrome browser */
+@page {
+	margin: 0;
+	size: 297mm 105mm; /* should be the same as .page */
+}
+
+/* title page or week pages */
+.page {
+	position: relative;
+	width: 297mm; /* shuold be the same as @page */
+	height: 105mm; /* shuold be the same as @page */
+	background-size: cover; /* fit the background image to entire page */
+	page-break-after: always; /* helps printing */
+}
+
+/* default 0 margin, padding */
+* {
+	padding: 0;
+	margin: 0;
+}
+
+/* default font */
+body {
+	font-family: Arial;
+	font-size: 4mm;
+}
+
+/**********************************************************************
+* T I T L E   P A G E
+**********************************************************************/
+/* width and position of title image */
+#title-page-image-container {
+	position: relative;
+	width: 60%;
+	left: 20%;
+	top: 10%;
+}
+
+#title-page-image-aspect-ratio {
+	position: relative;
+	padding-bottom: 50%; /* aspect ratio 2:1 */
+}
+
+#title-page-image {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+/* position and size of title */
+#title {
+	position: absolute;
+	top: 85%;
+	font-size: 200%;
+	color: white;
+	background-color: grey;
+	padding-left: 2%;
+	padding-right: 2%;
+	/* centering */
+	left: 50%;
+	transform: translate(-50%,0);
+}
+
+/**********************************************************************
+* W E E K   P A G E
+**********************************************************************/
+/* width and position of week image */
+.week-image-container {
+	position: relative;
+	width: 37.5%;
+	left: 31.25%;
+	top: 10%;
+}
+
+.week-image-aspect-ratio {
+	position: relative;
+	padding-bottom: 75%; /* aspect ratio 4:3 */
+}
+
+/* size and position of week images */
+.week-image {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.week-image-description {
+	position: relative;
+	top: 11%;
+	width: 35%;
+	/* centering */
+	left: 50%;
+	transform: translate(-50%,0);
+	text-align: center;
+}
+
+.month-name {
+	position: absolute;
+	right: 2%;
+	bottom: 2%;
+	font-size: 120%;
+}
+
+/**********************************************************************
+* W E E K S
+**********************************************************************/
+.week-number {
+	position: absolute;
+	font-size: 120%;
+	bottom: 2%;
+}
+
+.week {
+	position: absolute;
+	top: 10%;
+	width: 28%;
+	height: 90%;
+	font-size: 85%;
+}
+
+.week-1 {
+	left: 2%;
+}
+
+.week-2 {
+	right: 2%;
+}
+
+hr {
+	margin-top: .5%;
+	margin-bottom: .5%;
+}
+
+.day {
+	position: relative;
+	height: 11%;
+}
+
+/* positioning of day content */
+.day-number {
+	position: absolute;
+	bottom: 0; /* at the bottom */
+	font-size: 200%;
+}
+
+.day-name {
+	position: absolute;
+	left: 12%;
+}
+
+.day-name-day {
+	position: absolute;
+	left: 12%;
+	bottom: 0;
+}
+
+.day-religious-holiday {
+	position: absolute;
+	right: 0;
+	font-style: italic;
+	color: darkgreen;
+	/* vertical centering */
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.day-public-holiday {
+	position: absolute;
+	right: 0;
+}
+
+.day-note {
+	position: absolute;
+	right: 0;
+	bottom: 0; /* at the bottom */
+	color: blue;
+	font-style: italic;
+}
+
+/* sundays and public holidays are red */
+.day-is-public-holiday {
+	color: red;
+}
+
+.day-sunday {
+	color: red;
+}
+
+/**********************************************************************
+* L A S T   P A G E
+**********************************************************************/
+#last-page {
+	font-weight: bold;
+}
+
+#last-page-year {
+	padding-top: 5%;
+	font-size: 300%;
+	/* centering */
+	width: 100%;
+	text-align: center;
+	margin-bottom: 1%; /* space after */
+}
+
+.last-page-months {
+	font-size: 55%;
+	height: 25%;
+	margin-bottom: 2%; /* space after */
+	text-align-last: justify; /* justify of content */
+	/* centering */
+	width: 92%;
+	margin-left: 4%;
+	margin-right: 4%;
+}
+
+.last-page-month {
+	display: inline-block;
+	width: 15%;
+	height: 100%;
+	text-align-last: center;
+	vertical-align: top; /* vertical top alignment */
+}
+
+.last-page-month-name {
+	width: 100%;
+	height: 15%;
+}
+
+.last-page-month-line {
+	width: 100%;
+	height: 13%;
+	text-align-last: left;
+}
+
+.last-page-month-line-1 {
+	margin-bottom: 2%;
+}
+
+.last-page-month-element {
+	display: inline-block;
+	width: 14%;
+	margin-right: -2%;
+	text-align-last: center;
+}
+
+/* red numbers */
+.last-page-month-element-sunday {
+	color: red;
+}
+
+.last-page-month-element-is-public-holiday {
+	color: red;
+}

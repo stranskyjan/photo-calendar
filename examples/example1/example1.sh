@@ -19,6 +19,7 @@ weekDayNamesFile=$dirData/weekDayNames.dat
 abbrWeekDayNamesFile=$dirData/abbrWeekDayNames.dat
 monthNamesFile=$dirData/monthNames.dat
 abbrMonthNamesFile=$dirData/abbrMonthNames.dat
+template=delphinus
 
 photocalendar \
 	--output-base                 $dirBuild/example1-sh \
@@ -38,4 +39,5 @@ photocalendar \
 	--week-day-names-file         $weekDayNamesFile \
 	--abbr-week-day-names-file    $abbrWeekDayNamesFile \
 	--month-names-file            $monthNamesFile \
-	--abbr-month-names-file       $abbrMonthNamesFile
+	--abbr-month-names-file       $abbrMonthNamesFile \
+	--template                    $template
