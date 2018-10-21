@@ -52,9 +52,8 @@ def formatDoubleWeeks(calendar):
 	backgroundImages  = calendar.backgroundImages  if calendar.backgroundImages  else empty
 	imageDescriptions = calendar.imageDescriptions if calendar.imageDescriptions else empty
 	assert all(len(vs) >= 27 for vs in (images,backgroundImages,imageDescriptions))
-	weeks1 = [week for week in calendar.weeks if week.number % 2 != 0]
-	weeks2 = [week for week in calendar.weeks if week.number % 2 == 0] + [None]
-	assert all(len(weeks) == 27 for weeks in (weeks1,weeks2))
+	weeks1 = calendar.weeks[0::2]
+	weeks2 = calendar.weeks[1::2]
 	for week1,week2,image,backgroundImage,imageDescription in zip(weeks1,weeks2,images,backgroundImages,imageDescriptions):
 		formatDoubleWeek(week1,week2,image,backgroundImage,imageDescription)
 

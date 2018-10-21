@@ -105,15 +105,15 @@ def createImage(dst,text="",color1=None,color2=None,gradientOrientation=None,bac
 		f.write(svg)
 
 def createImages(topDirectory):
-	"""create 53 sample week images"""
-	for i in range(53):
+	"""create 54 sample week images"""
+	for i in range(54):
 		dst = os.path.join(topDirectory,DATA,IMAGES,"{:02}".format(i+1))
 		text = "FIG {}".format(i+1)
 		createImage(dst,text=text)
 
 def createBackgrounds(topDirectory):
-	"""create 53 sample week background images"""
-	for i in range(53):
+	"""create 54 sample week background images"""
+	for i in range(54):
 		dst = os.path.join(topDirectory,DATA,BACKGROUNDS,"{:02}".format(i+1))
 		createImage(dst,background=True)
 
@@ -134,9 +134,9 @@ def createLastPageBackground(topDirectory):
 	createImage(dst,background=True)
 
 def createImagesDescription(topDirectory):
-	"""creates file with 53 sample image descriptions (empty description for 4th week)"""
+	"""creates file with 54 sample image descriptions (empty description for 4th week)"""
 	fn = os.path.join(topDirectory,DATA,"imageDescriptions.dat")
-	lines = [u"Description of fig {}, unicode úùŭûǔůüǘǜǚǖűũṹųų́ų̃ūṻū̀ū́ū̃ȕȗưựụṳṷṵ\n".format(i+1) for i in range(53)]
+	lines = [u"Description of fig {}, unicode úùŭûǔůüǘǜǚǖűũṹųų́ų̃ūṻū̀ū́ū̃ȕȗưựụṳṷṵ\n".format(i+1) for i in range(54)]
 	lines[3] = u"\\EMPTYLINE\n"
 	with codecs.open(fn,"w",encoding="utf-8") as f:
 		f.writelines(lines)
@@ -177,7 +177,7 @@ def defaultTopDirectory():
 	ret = os.path.join(gettempdir(),ret)
 	return ret
 
-def main(topDirectory=None,seed=1234567,locale="cs_CZ"):
+def main(topDirectory=None,seed=9,locale="cs_CZ"):
 	random.seed(seed)
 	# prepare directories
 	if topDirectory is None:

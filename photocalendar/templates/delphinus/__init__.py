@@ -47,11 +47,11 @@ def formatTitlePage(calendar):
 		div(calendar.title,id="title")
 
 def formatWeeks(calendar):
-	empty = ["" for _ in range(53)]
+	empty = ["" for _ in range(54)]
 	images            = calendar.images            if calendar.images            else empty
 	backgroundImages  = calendar.backgroundImages  if calendar.backgroundImages  else empty
 	imageDescriptions = calendar.imageDescriptions if calendar.imageDescriptions else empty
-	assert all(len(vs) >= 53 for vs in (images,backgroundImages,imageDescriptions))
+	assert all(len(vs) >= 54 for vs in (images,backgroundImages,imageDescriptions))
 	for week,image,backgroundImage,imageDescription in zip(calendar.weeks,images,backgroundImages,imageDescriptions):
 		formatWeek(week,image,backgroundImage,imageDescription)
 

@@ -230,12 +230,10 @@ class PhotoCalendar:
 		while d.weekday() != self._firstWeekDayId:
 			d -= datetime.timedelta(days=1)
 		self.weeks = []
-		while True:
+		for iweek in range(54):
 			days = [Day(d + datetime.timedelta(days=i)) for i in range(7)]
 			d += datetime.timedelta(days=7)
 			self.weeks.append(Week(days))
-			if d.year != self.year:
-				break
 		#
 		self.months = [Month(name,abbrName) for name,abbrName in zip(self.monthNames,self.abbrMonthNames)]
 		#
