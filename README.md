@@ -130,6 +130,10 @@ Two-weeks calendar
 
 	`make install [options]`, e.g. `make install USER=TRUE PYTHON=python3`
 
+3. Using [`pip`](https://pypi.org/project/pip/)
+
+	`[sudo] pip install [options] photo-calendar`, e.g. `pip install --user photo-calendar`
+
 ## What is here
 | file/directory | description |
 | --- | --- |
