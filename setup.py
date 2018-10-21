@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from distutils.core import setup
+import setuptools
+
+with open('README.md') as f:
+	long_description = f.read()
 
 templates = (
 	'delphinus',
@@ -8,18 +11,29 @@ templates = (
 	'lupus',
 )
 
-setup(
-	name = 'PhotoCalendar',
+setuptools.setup(
+	name = 'photo-calendar',
 	version = '1.1',
-	description = 'Utility to create custom weekly photo calendar',
+	description = 'Creates custom weekly/monthly/... photo calendars',
 	author = 'Jan Stránský',
 	author_email = 'honzik.stransky@gmail.com',
+	long_description = long_description,
+	long_description_content_type = 'text/markdown',
 	url = 'https://github.com/stranskyjan/photo-calendar',
-	packages = [
-		'photocalendar',
-		'photocalendar.templates',
-		'photocalendar.templates.html',
-	] + ['photocalendar.templates.{}'.format(t) for t in templates],
+	license = "LGPL",
+	keywords = "photocalendar photo calendar",
+	packages = setuptools.find_packages(exclude=['test']),
 	package_data = dict(('photocalendar.templates.{}'.format(t),["*.css"]) for t in templates),
 	scripts = ['bin/photocalendar'],
+	classifiers = [
+		'Development Status :: 4 - Beta',
+		'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
+		'Programming Language :: Python :: 2',
+		'Programming Language :: Python :: 2.7',
+		'Programming Language :: Python :: 3',
+		'Programming Language :: Python :: 3.5',
+		'Programming Language :: Unix Shell',
+		'Operating System :: OS Independent',
+
+	],
 )

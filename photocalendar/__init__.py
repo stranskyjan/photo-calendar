@@ -6,3 +6,5 @@ The appearance of the calendar is defined by the used template.
 a few simple :ref:`templates <section-templates>` is provided.
 """
 from .photocalendar import PhotoCalendar
+
+name = "photocalendar"
