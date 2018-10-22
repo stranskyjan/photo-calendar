@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import setuptools
+from photocalendar import version
 
 with open('README.md') as f:
 	long_description = f.read()
@@ -13,7 +14,7 @@ templates = (
 
 setuptools.setup(
 	name = 'photo-calendar',
-	version = '1.1',
+	version = version,
 	description = 'Creates custom weekly/monthly/... photo calendars',
 	author = 'Jan Stránský',
 	author_email = 'honzik.stransky@gmail.com',
