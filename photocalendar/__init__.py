@@ -8,4 +8,4 @@ a few simple :ref:`templates <section-templates>` is provided.
 from .photocalendar import PhotoCalendar
 
 name = "photocalendar"
-version = "0.1.0"
+version = "0.1.1-dev"
