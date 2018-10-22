@@ -1,4 +1,4 @@
-# PhotoCalendar
+# [PhotoCalendar](https://github.com/stranskyjan/photo-calendar)
 A [Python](https://python.org) utility to create custom weekly/monthly/... photo calendars.
 For example:
 ![template delphinus](images/delphinus.png)
