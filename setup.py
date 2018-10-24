@@ -3,14 +3,21 @@
 import setuptools
 from photocalendar import version
 
-with open('README.md') as f:
-	long_description = f.read()
-
 templates = (
 	'delphinus',
 	'columba',
 	'lupus',
 )
+
+# load README.md
+with open('README.md') as f:
+	long_description = f.read()
+# and replace local images with github urls
+for template in templates:
+	long_description = long_description.replace(
+		"images/{}.png".format(template),
+		"https://raw.githubusercontent.com/stranskyjan/photo-calendar/master/images/{}.png".format(template)
+	)
 
 setuptools.setup(
 	name = 'photo-calendar',
@@ -29,10 +36,9 @@ setuptools.setup(
 	classifiers = [
 		'Development Status :: 4 - Beta',
 		'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
+		'Programming Language :: Python',
 		'Programming Language :: Python :: 2',
-		'Programming Language :: Python :: 2.7',
 		'Programming Language :: Python :: 3',
-		'Programming Language :: Python :: 3.5',
 		'Programming Language :: Unix Shell',
 		'Operating System :: OS Independent',
 

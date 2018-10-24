@@ -90,3 +90,9 @@ clean:
 	rm -rf *.egg-info
 	find . -type f -name '*.pyc' -delete
 	find . -type d -name __pycache__ -delete
+
+
+dist:
+	make clean
+	python2 setup.py sdist bdist_wheel
+	python3 setup.py sdist bdist_wheel

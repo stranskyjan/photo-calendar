@@ -142,7 +142,7 @@ Two-weeks calendar
 | [examples](examples) | directory with examples |
 | [images](images) | images for github page (e.g., templates illustrations) |
 | [locale](locale) | files for localization (public holidays, name days, etc.) |
-| [Makefile](Makefile) | makefile for the project (with targets `help`, `install`, `doc`, `test`, `clean`) |
+| [Makefile](Makefile) | makefile for the project (with targets `help`, `install`, `doc`, `test`, `clean`, `dist`) |
 | [photocalendar](photocalendar) | actual python package |
 | [setup.py](setup.py) | python setup file for installation |
 | [tests](tests) | python unit tests |

@@ -7,5 +7,4 @@ a few simple :ref:`templates <section-templates>` is provided.
 """
 from .photocalendar import PhotoCalendar
 
-name = "photocalendar"
-version = "0.1.1-dev"
+version = "0.1.1"
