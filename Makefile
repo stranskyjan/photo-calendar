@@ -56,6 +56,8 @@ help:
 	@echo "    buld all examples (takes some time)"
 	@echo "  clean"
 	@echo "    cleans intermediate and auxiliary files"
+	@echo "  dist"
+	@echo "    creates distribution for PyPI by 'pythonX setup.py sdist bdist_wheel' command"
 
 
 install:
