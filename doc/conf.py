@@ -16,8 +16,8 @@ project = u'PhotoCalendar'
 author = u'Jan Stránský'
 copyright = u'2018, {}'.format(author)
 
-version = '1'
-release = '1'
+version = '0.1'
+release = '0.1.1'
 pygments_style = 'sphinx'
 html_theme = 'classic'
 
